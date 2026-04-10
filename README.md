@@ -59,6 +59,8 @@ print(f"SOL received: {sol_out / 1e9:.6f}")
 
 ### 📈 Read bonding curve state
 
+> **RPC calls require your own Solana RPC endpoint.** Get a free key from [Helius](https://helius.dev), [QuickNode](https://quicknode.com), or use the public endpoint (rate-limited).
+
 ```python
 import asyncio
 from pumpfun import fetch_bonding_curve_state
