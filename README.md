@@ -13,7 +13,8 @@
 PumpFun tokens start on a **bonding curve** and graduate to a **PumpSwap AMM pool**. Jupiter doesn't always route through these — and when it does, you're at the mercy of their routing engine. This library builds the raw Solana instructions so you can swap directly.
 
 - **Pre-graduation** — buy/sell against the PumpFun bonding curve (v2, 16/14 accounts)
-- **Post-graduation** — swap on PumpSwap AMM pools (constant-product, 13 accounts)
+- **One-call helpers** — `build_buy` / `build_sell` read the curve, quote, and return ready unsigned instructions
+- **Post-graduation** — legacy PumpSwap swap (13 accounts) + pool readers. For the **current Pump AMM (pAMMBay)** buy/sell path, use the companion package **[pumpswap-python](https://github.com/JinUltimate1995/pumpswap-python)**.
 - **Zero dependencies beyond solders + httpx** — no SDK bloat
 - **Production-tested** — extracted from a live trading system
 
@@ -34,6 +35,32 @@ pip install git+https://github.com/JinUltimate1995/pumpfun-python.git
 ---
 
 ## Quick Start
+
+### 🚀 One-call buy/sell (read curve → unsigned instructions)
+
+```python
+import asyncio, httpx
+from solders.keypair import Keypair
+from solders.transaction import VersionedTransaction
+from pumpfun import build_buy, build_message, fetch_latest_blockhash
+
+RPC = "https://api.mainnet-beta.solana.com"   # use your own (Helius/QuickNode) for real volume
+wallet = Keypair()                            # load your real keypair
+MINT = "TokenMintAddress..."
+
+async def main():
+    async with httpx.AsyncClient() as client:
+        plan = await build_buy(RPC, wallet.pubkey(), MINT, sol_lamports=100_000_000,
+                               slippage_bps=500, http_client=client)
+        blockhash = await fetch_latest_blockhash(RPC, http_client=client)
+    print(f"expected_tokens={plan.expected_tokens:,} max_sol_cost={plan.max_sol_cost}")
+    msg = build_message(wallet.pubkey(), plan.instructions, blockhash)
+    tx = VersionedTransaction(msg, [wallet])  # ← you sign + send
+
+asyncio.run(main())
+```
+
+Selling is symmetric: `await build_sell(RPC, wallet.pubkey(), MINT, token_amount=1_000_000, http_client=client)`.
 
 ### 💰 Calculate buy/sell amounts (no RPC needed)
 
@@ -121,6 +148,16 @@ amount_out, fee = calculate_swap_output(
 
 ## API Reference
 
+### High-level (read curve → unsigned instructions)
+
+| Function | Description |
+|---|---|
+| `build_buy()` | Read curve, quote, return `BuyPlan` (create-ATA + buy) |
+| `build_sell()` | Read curve, quote, return `SellPlan` (sell + close-ATA) |
+| `build_message()` | Compile a v0 message (compute budget prepended) for signing |
+| `fetch_latest_blockhash()` | Recent blockhash for transaction assembly |
+| `detect_token_program()` | SPL Token vs Token-2022, auto-detected per mint |
+
 ### Bonding Curve (pre-graduation)
 
 | Function | Description |
@@ -165,6 +202,7 @@ All program IDs are exported: `PUMP_FUN_PROGRAM`, `PUMP_SWAP_PROGRAM`, `PUMP_AMM
 
 ## Also by JinUltimate1995
 
+- **[pumpswap-python](https://github.com/JinUltimate1995/pumpswap-python)** — direct Pump AMM (pAMMBay) swaps for *graduated* tokens. The natural next step once a curve completes.
 - **[jupiter-swap-python](https://github.com/JinUltimate1995/jupiter-swap-python)** — Jupiter swap client for Python. Async. Typed.
 - **[solana-rpc-resilient](https://github.com/JinUltimate1995/solana-rpc-resilient)** — Fault-tolerant Solana RPC with automatic failover.
 - **[dexscreener-python](https://github.com/JinUltimate1995/dexscreener-python)** — DexScreener API client for Python.

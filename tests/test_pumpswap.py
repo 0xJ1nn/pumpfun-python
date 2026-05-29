@@ -13,7 +13,6 @@ from pumpfun.constants import (
     PUMP_SWAP_PROGRAM,
     PUMPSWAP_SWAP_DISCRIMINATOR,
     SOL_MINT,
-    TOKEN_PROGRAM,
 )
 from pumpfun.pumpswap import (
     PoolState,

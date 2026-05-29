@@ -11,8 +11,8 @@ import struct
 from dataclasses import dataclass
 
 import httpx
-from solders.instruction import AccountMeta, Instruction  # type: ignore[import-untyped]
-from solders.pubkey import Pubkey  # type: ignore[import-untyped]
+from solders.instruction import AccountMeta, Instruction
+from solders.pubkey import Pubkey
 
 from .constants import (
     PUMP_AMM_PROGRAM,
@@ -24,7 +24,6 @@ from .constants import (
     SOL_MINT,
     TOKEN_PROGRAM,
 )
-from .pda import get_associated_token_address
 
 
 class PumpSwapError(Exception):
@@ -164,15 +163,14 @@ async def fetch_pool_state(
     def _pubkey_at(offset: int) -> Pubkey:
         return Pubkey.from_bytes(account_bytes[offset: offset + 32])
 
-    off = 8
-    pool_bump = account_bytes[off]; off += 1
-    index = struct.unpack_from("<H", account_bytes, off)[0]; off += 2
-    creator = _pubkey_at(off); off += 32
-    base_mint = _pubkey_at(off); off += 32
-    quote_mint = _pubkey_at(off); off += 32
-    lp_mint = _pubkey_at(off); off += 32
-    pool_base_token_account = _pubkey_at(off); off += 32
-    pool_quote_token_account = _pubkey_at(off); off += 32
+    pool_bump = account_bytes[8]
+    index = struct.unpack_from("<H", account_bytes, 9)[0]
+    creator = _pubkey_at(11)
+    base_mint = _pubkey_at(43)
+    quote_mint = _pubkey_at(75)
+    lp_mint = _pubkey_at(107)
+    pool_base_token_account = _pubkey_at(139)
+    pool_quote_token_account = _pubkey_at(171)
 
     if is_pump_amm:
         lp_fee_basis_points = 200
@@ -181,8 +179,8 @@ async def fetch_pool_state(
         if len(account_bytes) >= 243:
             coin_creator = _pubkey_at(211)
     else:
-        lp_fee_basis_points = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-        protocol_fee_basis_points = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
+        lp_fee_basis_points = struct.unpack_from("<Q", account_bytes, 203)[0]
+        protocol_fee_basis_points = struct.unpack_from("<Q", account_bytes, 211)[0]
         coin_creator = creator
 
     base_is_sol = is_pump_amm and str(base_mint) == str(SOL_MINT)

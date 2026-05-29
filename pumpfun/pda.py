@@ -4,7 +4,7 @@ PDA derivation helpers for PumpFun and PumpSwap.
 
 from __future__ import annotations
 
-from solders.pubkey import Pubkey  # type: ignore[import-untyped]
+from solders.pubkey import Pubkey
 
 from .constants import (
     ASSOCIATED_TOKEN_PROGRAM,

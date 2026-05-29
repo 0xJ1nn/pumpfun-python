@@ -4,7 +4,7 @@ Solana program IDs and instruction discriminators for PumpFun and PumpSwap.
 
 import hashlib
 
-from solders.pubkey import Pubkey  # type: ignore[import-untyped]
+from solders.pubkey import Pubkey
 
 # ── PumpFun bonding curve program ──────────────────────────────────────────
 PUMP_FUN_PROGRAM = Pubkey.from_string("6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P")

@@ -215,7 +215,6 @@ def _make_bonding_curve_data(
     creator: Pubkey | None = None,
 ) -> bytes:
     """Build a fake bonding curve account blob."""
-    import base64
     creator = creator or TEST_CREATOR
     buf = b"\x00" * 8  # discriminator
     buf += struct.pack("<Q", virtual_token_reserves)

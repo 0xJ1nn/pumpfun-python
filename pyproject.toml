@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pumpfun-python"
-version = "0.1.0"
+version = "0.2.0"
 description = "Buy and sell on PumpFun bonding curves + PumpSwap AMM. Directly from Python."
 readme = "README.md"
 license = "MIT"
@@ -50,6 +50,7 @@ Issues = "https://github.com/JinUltimate1995/pumpfun-python/issues"
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+    "pytest-httpx>=0.30",
     "ruff>=0.4",
     "mypy>=1.10",
 ]
@@ -64,5 +65,13 @@ line-length = 100
 [tool.mypy]
 python_version = "3.10"
 strict = true
+
+[[tool.mypy.overrides]]
+module = "solders.*"
+ignore_missing_imports = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["pumpfun"]
+
+[tool.hatch.build.targets.sdist]
+include = ["pumpfun", "tests", "README.md", "CHANGELOG.md", "LICENSE"]

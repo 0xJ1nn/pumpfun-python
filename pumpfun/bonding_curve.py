@@ -11,11 +11,11 @@ from __future__ import annotations
 
 import base64
 import struct
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import httpx
-from solders.instruction import AccountMeta, Instruction  # type: ignore[import-untyped]
-from solders.pubkey import Pubkey  # type: ignore[import-untyped]
+from solders.instruction import AccountMeta, Instruction
+from solders.pubkey import Pubkey
 
 from .constants import (
     PUMP_BUY_DISCRIMINATOR,
@@ -171,14 +171,14 @@ async def fetch_bonding_curve_state(
     if len(account_bytes) < 81:
         raise PumpFunError(f"Bonding curve data too short: {len(account_bytes)} bytes")
 
-    off = 8  # skip Anchor discriminator
-    virtual_token_reserves = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-    virtual_sol_reserves = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-    real_token_reserves = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-    real_sol_reserves = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-    token_total_supply = struct.unpack_from("<Q", account_bytes, off)[0]; off += 8
-    complete = account_bytes[off] != 0; off += 1
-    creator = Pubkey.from_bytes(account_bytes[off: off + 32]); off += 32
+    # Layout offsets after the 8-byte Anchor discriminator.
+    virtual_token_reserves = struct.unpack_from("<Q", account_bytes, 8)[0]
+    virtual_sol_reserves = struct.unpack_from("<Q", account_bytes, 16)[0]
+    real_token_reserves = struct.unpack_from("<Q", account_bytes, 24)[0]
+    real_sol_reserves = struct.unpack_from("<Q", account_bytes, 32)[0]
+    token_total_supply = struct.unpack_from("<Q", account_bytes, 40)[0]
+    complete = account_bytes[48] != 0
+    creator = Pubkey.from_bytes(account_bytes[49:81])
 
     is_mayhem_mode = len(account_bytes) >= 82 and account_bytes[81] != 0
     is_cashback_coin = len(account_bytes) >= 83 and account_bytes[82] != 0

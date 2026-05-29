@@ -2,7 +2,6 @@
 
 from solders.pubkey import Pubkey
 
-from pumpfun.constants import PUMP_FEE_PROGRAM, PUMP_FUN_PROGRAM
 from pumpfun.pda import (
     get_associated_token_address,
     get_bonding_curve_pda,

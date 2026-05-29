@@ -2,7 +2,6 @@
 
 import hashlib
 
-from solders.pubkey import Pubkey
 
 from pumpfun.constants import (
     PUMP_AMM_PROGRAM,
