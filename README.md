@@ -212,3 +212,13 @@ All program IDs are exported: `PUMP_FUN_PROGRAM`, `PUMP_SWAP_PROGRAM`, `PUMP_AMM
 ## License
 
 MIT
+
+---
+
+## Support
+
+If this saved you time, a tip is appreciated — it funds maintenance.
+
+**Tip jar (SOL):** `Evot66rHqu6WyiBF948YipgArHSMeJ5D4GeNJXPTpV6q`
+
+You can also sponsor via the GitHub **Sponsor** button.
