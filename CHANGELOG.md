@@ -18,7 +18,7 @@
 
 ### Note
 - For the current **Pump AMM (pAMMBay)** buy/sell path on graduated tokens, see the
-  companion package [pumpswap-python](https://github.com/JinUltimate1995/pumpswap-python).
+  companion package [pumpswap-python](https://github.com/0xJ1nn/pumpswap-python).
 
 ## 0.1.0 (2025-07-10)
 

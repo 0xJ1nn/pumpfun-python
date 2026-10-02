@@ -3,7 +3,7 @@
 ## Development Setup
 
 ```bash
-git clone https://github.com/JinUltimate1995/pumpfun-python.git
+git clone https://github.com/0xJ1nn/pumpfun-python.git
 cd pumpfun-python
 python -m venv .venv
 source .venv/bin/activate

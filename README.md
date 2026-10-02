@@ -14,7 +14,7 @@ PumpFun tokens start on a **bonding curve** and graduate to a **PumpSwap AMM poo
 
 - **Pre-graduation** — buy/sell against the PumpFun bonding curve (v2, 16/14 accounts)
 - **One-call helpers** — `build_buy` / `build_sell` read the curve, quote, and return ready unsigned instructions
-- **Post-graduation** — legacy PumpSwap swap (13 accounts) + pool readers. For the **current Pump AMM (pAMMBay)** buy/sell path, use the companion package **[pumpswap-python](https://github.com/JinUltimate1995/pumpswap-python)**.
+- **Post-graduation** — legacy PumpSwap swap (13 accounts) + pool readers. For the **current Pump AMM (pAMMBay)** buy/sell path, use the companion package **[pumpswap-python](https://github.com/0xJ1nn/pumpswap-python)**.
 - **Zero dependencies beyond solders + httpx** — no SDK bloat
 - **Production-tested** — extracted from a live trading system
 
@@ -29,7 +29,7 @@ pip install pumpfun-python
 Or from source:
 
 ```bash
-pip install git+https://github.com/JinUltimate1995/pumpfun-python.git
+pip install git+https://github.com/0xJ1nn/pumpfun-python.git
 ```
 
 ---
@@ -200,12 +200,12 @@ All program IDs are exported: `PUMP_FUN_PROGRAM`, `PUMP_SWAP_PROGRAM`, `PUMP_AMM
 
 ---
 
-## Also by JinUltimate1995
+## Also by 0xJ1nn
 
-- **[pumpswap-python](https://github.com/JinUltimate1995/pumpswap-python)** — direct Pump AMM (pAMMBay) swaps for *graduated* tokens. The natural next step once a curve completes.
-- **[jupiter-swap-python](https://github.com/JinUltimate1995/jupiter-swap-python)** — Jupiter swap client for Python. Async. Typed.
-- **[solana-rpc-resilient](https://github.com/JinUltimate1995/solana-rpc-resilient)** — Fault-tolerant Solana RPC with automatic failover.
-- **[dexscreener-python](https://github.com/JinUltimate1995/dexscreener-python)** — DexScreener API client for Python.
+- **[pumpswap-python](https://github.com/0xJ1nn/pumpswap-python)** — direct Pump AMM (pAMMBay) swaps for *graduated* tokens. The natural next step once a curve completes.
+- **[jupiter-swap-python](https://github.com/0xJ1nn/jupiter-swap-python)** — Jupiter swap client for Python. Async. Typed.
+- **[solana-rpc-resilient](https://github.com/0xJ1nn/solana-rpc-resilient)** — Fault-tolerant Solana RPC with automatic failover.
+- **[dexscreener-python](https://github.com/0xJ1nn/dexscreener-python)** — DexScreener API client for Python.
 
 ---
 
